@@ -17,7 +17,6 @@ jobs:
         with:
           flutter-version: '3.24.5'
           channel: 'stable'
-      - run: flutter create .
       - run: flutter pub get
       - run: cd android && ./gradlew clean
       - run: flutter build apk --release
