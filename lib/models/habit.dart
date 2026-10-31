@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Habit extends HiveObject {
   String id;
@@ -8,6 +9,7 @@ class Habit extends HiveObject {
   List<String> completedDates;
   int targetDaysPerWeek;
   DateTime createdAt;
+
   Habit({
     required this.id,
     required this.name,
@@ -17,13 +19,19 @@ class Habit extends HiveObject {
     this.targetDaysPerWeek = 7,
     required this.createdAt,
   });
+
   bool isCompletedOn(DateTime date) => completedDates.contains(_key(date));
+
   void toggle(DateTime date) {
     final k = _key(date);
-    if (completedDates.contains(k)) { completedDates.remove(k); }
-    else { completedDates.add(k); }
+    if (completedDates.contains(k)) {
+      completedDates.remove(k);
+    } else {
+      completedDates.add(k);
+    }
     save();
   }
+
   int get currentStreak {
     if (completedDates.isEmpty) return 0;
     var c = DateTime.now();
@@ -38,8 +46,20 @@ class Habit extends HiveObject {
     }
     return s;
   }
+
   static String _key(DateTime d) =>
       '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'colorValue': colorValue,
+      'emoji': emoji,
+      'completedDates': completedDates,
+      'targetDaysPerWeek': targetDaysPerWeek,
+      'createdAt': Timestamp.fromDate(createdAt),
+    };
+  }
 }
 
 class HabitAdapter extends TypeAdapter<Habit> {
