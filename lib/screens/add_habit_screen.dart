@@ -45,7 +45,7 @@ class _State extends ConsumerState<AddHabitScreen> {
                 hintText: 'Orn. Su ic',
                 border: OutlineInputBorder())),
         const SizedBox(height: 16),
-        const Text('Hedef: haftada $_hedef gun'),
+        Text('Hedef: haftada $_hedef gun'),
         Slider(value: _hedef.toDouble(), min: 1, max: 7, divisions: 6,
             onChanged: (v) => setState(() => _hedef = v.round())),
       ]),
