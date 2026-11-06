@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Habit extends HiveObject {
   String id;
@@ -49,17 +48,6 @@ class Habit extends HiveObject {
 
   static String _key(DateTime d) =>
       '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'colorValue': colorValue,
-      'emoji': emoji,
-      'completedDates': completedDates,
-      'targetDaysPerWeek': targetDaysPerWeek,
-      'createdAt': Timestamp.fromDate(createdAt),
-    };
-  }
 }
 
 class HabitAdapter extends TypeAdapter<Habit> {

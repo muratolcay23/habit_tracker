@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'models/habit.dart';
+import 'screens/home_screen.dart';
 
-void main() {
-  runApp(const TestApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(HabitAdapter());
+  await Hive.openBox<Habit>('habits');
+  runApp(const ProviderScope(child: HabitApp()));
 }
 
-class TestApp extends StatelessWidget {
-  const TestApp({super.key});
+class HabitApp extends StatelessWidget {
+  const HabitApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Aliskanlik Takipcisi',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Test Ekranı')),
-        body: const Center(
-          child: Text(
-            'UYGULAMA BAŞARIYLA AÇILDI!\n\nEğer bu yazıyı görüyorsan, sorun Firebase veya Hive ayarlarında.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
+      home: const HomeScreen(),
     );
   }
 }
