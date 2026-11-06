@@ -12,6 +12,7 @@ class HabitTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final done = habit.isCompletedOn(date);
     final color = Color(habit.colorValue);
+    final iconData = IconData(int.parse(habit.emoji), fontFamily: 'MaterialIcons');
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -36,7 +37,7 @@ class HabitTile extends ConsumerWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Center(
-            child: Text(habit.emoji, style: const TextStyle(fontSize: 24)),
+            child: Icon(iconData, color: color, size: 28),
           ),
         ),
         title: Text(
@@ -69,7 +70,7 @@ class HabitTile extends ConsumerWidget {
               shape: BoxShape.circle,
               border: Border.all(color: done ? color : Colors.grey.shade300, width: 2),
             ),
-            child: done 
+            child: done
                 ? const Icon(Icons.check, color: Colors.white, size: 24)
                 : null,
           ),
